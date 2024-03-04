@@ -1,11 +1,13 @@
 # from sqlalchemy import create_engine, Column, Integer, String
 # from sqlalchemy.ext.declarative import declarative_base
 # from sqlalchemy.orm import sessionmaker
+# from bot.misc.configuration import conf
+# from sqlalchemy.ext.asyncio import create_async_engine
 
 
 
 
-# engine = create_engine('postgresql://postgres:325.Veiby@localhost/sqlalchemy')#Сюда надо имя пароль для PostgreSQL
+# engine = create_async_engine(conf.db.database_url_asyncpg())#Сюда надо имя пароль для PostgreSQL
 
 # Base = declarative_base()
 

@@ -18,8 +18,8 @@ async def main():
     dp.include_router(echo_text.router)
 
     
-    # go_db = URL.create(conf.db.database_url_asyncpg())
-    # async_engine = create_async_engine(go_db)
+
+    # async_engine = create_async_engine()
     # session_maker = get_session_maker(async_engine)
     # await proceed_schemas(async_engine, BaseModel.metadata)
 

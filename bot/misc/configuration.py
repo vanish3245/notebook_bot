@@ -15,19 +15,16 @@ class DatabaseConfig:
     driver: str = "asyncpg"
     database_system: str = "postgresql"
 
-    def database_url_asyncpg(self) -> str:
-        return f"{self.database_system}+{self.driver}://{self.user}:{self.passwd}@{self.host}:{self.port}/{self.name}"
+    def build_connection_str(self) -> str:
 
-    # def build_connection_str(self) -> str:
-
-    #     return URL.create(
-    #         drivername=f"{self.database_system}+{self.driver}",
-    #         username=self.user,
-    #         database=self.name,
-    #         password=self.passwd,
-    #         port=self.port,
-    #         host=self.host,
-    #     ).render_as_string(hide_password=False)
+        return URL.create(
+            drivername=f"{self.database_system}+{self.driver}",
+            username=self.user,
+            database=self.name,
+            password=self.passwd,
+            port=self.port,
+            host=self.host,
+        ).render_as_string(hide_password=False)
 
 
 @dataclass

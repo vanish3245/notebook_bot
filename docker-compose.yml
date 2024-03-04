@@ -18,37 +18,35 @@ services:
         aliases:
           - bot
 
-  # redis:
-  #   image: redis:alpine
-  #   restart: always
-  #   ports:
-  #   - 6379:6379
-  #   command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}
-  #   volumes:
-  #   - ./cache:/data
-  #   networks:
-  #     bot:
-  #       aliases:
-  #         - redis
+  redis:
+    image: redis:alpine
+    restart: always
+    ports:
+    - 6379:6379
+    command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}
+    volumes:
+    - ./cache:/data
+    networks:
+      bot:
+        aliases:
+          - redis
 
 
   db:
     image: postgres:alpine
     restart: always
     environment:
-      POSTGRES_DB: ${POSTGRES_DATABASE}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_ENGINE: ${POSTGRES_ENGINE}
     ports:
       - "5432:5432"
+    env_file:
+      - .env
     volumes:
       - './data/db:/var/lib/pgdata/data'
     networks:
       bot:
         aliases:
           - db
-    env_file:
-      - .env
 
 volumes:
   db:
