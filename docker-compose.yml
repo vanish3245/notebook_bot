@@ -1,0 +1,58 @@
+version: '3'
+
+services:
+  bot:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ./bot:/app/bot
+    depends_on:
+        - db
+    #   - redis
+    networks:
+      bot:
+        aliases:
+          - bot
+
+  # redis:
+  #   image: redis:alpine
+  #   restart: always
+  #   ports:
+  #   - 6379:6379
+  #   command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}
+  #   volumes:
+  #   - ./cache:/data
+  #   networks:
+  #     bot:
+  #       aliases:
+  #         - redis
+
+
+  db:
+    image: postgres:alpine
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DATABASE}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - './data/db:/var/lib/pgdata/data'
+    networks:
+      bot:
+        aliases:
+          - db
+    env_file:
+      - .env
+
+volumes:
+  db:
+
+networks:
+  bot:
+    driver: bridge
