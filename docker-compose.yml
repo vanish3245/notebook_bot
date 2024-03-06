@@ -35,8 +35,6 @@ services:
   db:
     image: postgres:alpine
     restart: always
-    environment:
-      POSTGRES_ENGINE: ${POSTGRES_ENGINE}
     ports:
       - "5432:5432"
     env_file:

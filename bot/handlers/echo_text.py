@@ -1,10 +1,8 @@
 from aiogram import Router, F
 from aiogram.types import Message
 from aiogram.filters import Command
-# from aiogram.fsm.context import FSMContext
-# from aiogram.fsm.state import State, StatesGroup
-
-# from bot.handlers.database import save_user_data
+from bot.data.models import Name_test_ORM
+from bot.data.requests import Session
 
 
 router = Router()
@@ -12,8 +10,16 @@ router = Router()
 
 @router.message(Command('start'))
 async def products(message: Message):
-    await message.answer(text='HI')
+    chat_id = message.chat.id
+    user_name = message.from_user.first_name
 
+    new_user = Name_test_ORM(chat_id=chat_id, name=user_name)
+
+    async with Session() as session:
+        session.add(new_user)
+        await session.commit()
+
+    await message.answer(f'{user_name} твое имя в базе данных!')
 
 # @router.callback_query(F.data == 'products')
 # async def call_products(call: CallbackQuery):
